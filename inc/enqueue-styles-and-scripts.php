@@ -33,8 +33,6 @@ function ecommerce_scripts()
         )
     );
 
-    // wp_deregister_style( 'woocommerce-general' );
-    // wp_deregister_style( 'woocommerce-layout' );
 }
 
 add_action('wp_enqueue_scripts', 'ecommerce_styles');

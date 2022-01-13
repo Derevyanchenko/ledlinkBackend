@@ -19,4 +19,86 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-wc_get_template( 'archive-product.php' );
+
+// wc_get_template( 'archive-product.php' );
+
+
+if ( is_product_category() ) {
+	global $wp_query;
+	$main_term = $wp_query->get_queried_object();
+	$cat_id = $main_term->term_id;
+	$cat_name = $main_term->name;
+
+	$taxonomy  = 'product_cat';
+	$child_ids = get_term_children( $cat_id, $taxonomy );
+
+	if ( ! empty( $child_ids ) ) {
+
+	get_header( 'shop' );
+
+	/**
+	 * Hook: woocommerce_before_main_content.
+	 *
+	 * @hooked woocommerce_output_content_wrapper - 10 (outputs opening divs for the content)
+	 * @hooked woocommerce_breadcrumb - 20
+	 * @hooked WC_Structured_Data::generate_website_data() - 30
+	 */
+	do_action( 'woocommerce_before_main_content' );
+?>
+
+<section class="section brands ">
+	<div class="container shopPage-container brands-container">
+	    <div class="brands-title">
+			<h2><?php echo $cat_name; ?></h2>
+		</div>
+		<?php
+				echo '<div class="brands__wrapper">';
+				foreach ( $child_ids as $child_id ) {
+					if( $child_id != $main_term->term_id ) {
+
+						$term = get_term_by( 'id', $child_id, $taxonomy );
+						$thumb_id = get_woocommerce_term_meta( $term->term_id, 'thumbnail_id', true );
+						$term_img = wp_get_attachment_url(  $thumb_id );
+					?>
+						<div class="brands__col">
+							<a href="<?php echo get_term_link( $child_id, $taxonomy ); ?>" class="brands__item">
+								<p class="brands__item-title"><?php echo $term->name; ?></p>
+								<?php if ( ! empty( $term_img ) ) : ?>
+									<div class="brands__item-img">
+										<img src="<?php echo $term_img; ?>" alt="img">
+									</div>
+								<?php endif; ?>
+							</a>
+						</div>
+						<!-- brands__col -->
+					<?php
+					}
+				}
+				echo '</div>';
+		?>
+	</div>
+</section>
+
+<?php
+	/**
+	 * Hook: woocommerce_after_main_content.
+	 *
+	 * @hooked woocommerce_output_content_wrapper_end - 10 (outputs closing divs for the content)
+	 */
+	do_action( 'woocommerce_after_main_content' );
+
+	/**
+	 * Hook: woocommerce_sidebar.
+	 *
+	 * @hooked woocommerce_get_sidebar - 10
+	 */
+	do_action( 'woocommerce_sidebar' );
+
+	get_footer( 'shop' );
+
+	} else {
+		wc_get_template( 'archive-product.php' );
+	}
+
+	}
+?>
