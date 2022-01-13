@@ -15,39 +15,33 @@
 get_header();
 ?>
 
-	<main id="primary" class="site-main">
+<section class="section aboutPage defaultPage-template dir-ltr" >
+    <div class="container">
+        <div class="aboutPage__content">
+			<h2 class="aboutPage__title"><?php single_post_title(); ?></h2>
+			<div class="aboutPage__text">
+			<?php
+				if ( have_posts() ) :
 
-		<?php
-		if ( have_posts() ) :
+					/* Start the Loop */
+					while ( have_posts() ) :
+						the_post();
 
-			if ( is_home() && ! is_front_page() ) :
+						/*
+						* Include the Post-Type-specific template for the content.
+						* If you want to override this in a child theme, then include a file
+						* called content-___.php (where ___ is the Post Type name) and that will be used instead.
+						*/
+						the_content();
+
+					endwhile;
+
+				endif;
 				?>
-				<header>
-					<h1 class="page-title screen-reader-text"><?php single_post_title(); ?></h1>
-				</header>
-				<?php
-			endif;
-
-			/* Start the Loop */
-			while ( have_posts() ) :
-				the_post();
-
-				/*
-				 * Include the Post-Type-specific template for the content.
-				 * If you want to override this in a child theme, then include a file
-				 * called content-___.php (where ___ is the Post Type name) and that will be used instead.
-				 */
-				woocommerce_content();
-
-			endwhile;
-
-			the_posts_navigation();
-
-		endif;
-		?>
-
-	</main><!-- #main -->
+			</div>
+		</div>
+    </div>
+</section>
 
 <?php
-get_sidebar();
 get_footer();

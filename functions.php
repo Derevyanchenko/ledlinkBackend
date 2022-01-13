@@ -80,8 +80,13 @@ add_filter('acf/fields/google_map/api', 'my_acf_google_map_api');
 // #####################################################################
 // wooocommerce
 
+if ( ! function_exists( 'is_woocommerce' ) ) {
+	return;
+}
 // remove basic woo styles
-add_filter( 'woocommerce_enqueue_styles', '__return_false' );
+if ( ! is_cart() || ! is_checkout() ) {
+	add_filter( 'woocommerce_enqueue_styles', '__return_false' );
+}
 
 remove_action('woocommerce_before_shop_loop', 'woocommerce_output_all_notices', 10);
 remove_action('woocommerce_before_shop_loop', 'woocommerce_result_count', 20);

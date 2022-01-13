@@ -1,11 +1,11 @@
 <?php
 /**
- * The template for displaying all pages
+ * The main template file
  *
- * This is the template that displays all pages by default.
- * Please note that this is the WordPress construct of pages
- * and that other 'pages' on your WordPress site may use a
- * different template.
+ * This is the most generic template file in a WordPress theme
+ * and one of the two required files for a theme (the other being style.css).
+ * It is used to display a page when nothing more specific matches a query.
+ * E.g., it puts together the home page when no home.php file exists.
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
@@ -13,40 +13,35 @@
  */
 
 get_header();
-the_post();
-if ( is_cart() || is_checkout() ) : ?>
-
-
-<!-- Start Page Header Wrapper -->
-<div class="page-header-wrapper">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="page-header-content">
-                    <h2><?php woocommerce_page_title() ?></h2>
-                    <?php woocommerce_breadcrumb(); ?>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End Page Header Wrapper -->
-
-<!--== Start Checkout Page Wrapper ==-->
-<div id="checkout-page-wrapper" class="pt-90 pt-md-60 pt-sm-50 pb-50 pb-md-20 pb-sm-10">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-<?php endif; 
-
-    the_content(); 
-
-if ( is_cart() || is_checkout() ) : 
 ?>
-            </div>
-        </div>
-    </div>
-</div>
 
-<?php endif; 
-get_footer(); ?>
+<section class="section aboutPage defaultPage-template dir-ltr" >
+    <div class="container">
+        <div class="aboutPage__content">
+			<h2 class="aboutPage__title"><?php single_post_title(); ?></h2>
+			<div class="aboutPage__text">
+			<?php
+				if ( have_posts() ) :
+
+					/* Start the Loop */
+					while ( have_posts() ) :
+						the_post();
+
+						/*
+						* Include the Post-Type-specific template for the content.
+						* If you want to override this in a child theme, then include a file
+						* called content-___.php (where ___ is the Post Type name) and that will be used instead.
+						*/
+						the_content();
+
+					endwhile;
+
+				endif;
+				?>
+			</div>
+		</div>
+    </div>
+</section>
+
+<?php
+get_footer();
