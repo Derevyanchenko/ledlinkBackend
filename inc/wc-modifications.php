@@ -4,6 +4,13 @@ if ( ! defined("ABSPATH") ) {
     exit;
 }
 
+
+
+
+// old code
+$flag = false;
+if ( $flag === true ) {
+    
 // add base woo theme support
 function ecommerce_add_woocommerce_base() {
     add_theme_support( 'woocommerce', array(
@@ -655,4 +662,7 @@ remove_action( 'woocommerce_checkout_terms_and_conditions', 'wc_checkout_privacy
 add_action( 'woocommerce_checkout_terms_and_conditions', 'ecommerce_custom_wc_checkout_privacy_policy_text', 20 );
 function ecommerce_custom_wc_checkout_privacy_policy_text() {
     wc_privacy_policy_text( 'checkout' );
+}
+
+
 }
