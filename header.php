@@ -9,7 +9,7 @@
 	<!--== Google Fonts ==-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400,800&family=Spartan&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;800&family=Spartan&display=swap" rel="stylesheet">
 	<?php wp_head(); ?>
 </head>
 <body <?php is_front_page() ? body_class( "bg-black" ) : body_class() ; ?>>

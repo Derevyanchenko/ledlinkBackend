@@ -87,32 +87,24 @@ if ( document.getElementsByClassName( 'swiper-container' ) ) {
 });
 }
 
-//   $("form").on("submit", function(e) {
-//     e.preventDefault();
-//     $(this).trigger("reset");
-//     close_popup();
-//     show_thanks_popup();
-
-//     setTimeout(function(){
-//       close_popup();
-//     }, 5000);
-//   });
-
-  // iframe lazy loading
-
-  // setTimeout(function(){
-  //     let iframe = $("iframe"),
-  //     iframeUrl = iframe.attr("data-src");
-  //     iframe.attr("src", iframeUrl);
-  // }, 2000);
-  
-  // lazy scroll to section
-
   // burger
 
   $(".open-menu-js").on("click", function() {
     $(".mobileMenu-overlay").addClass("open");
     $("body, html").css("overflow-x", "hidden");
+  });
+
+    // lazy scroll to section
+
+  $('a[href*="#"]').click(function() {
+    var target = $(this.hash);
+    if (target.length) {
+      $('html, body').animate({
+        scrollTop: target.offset().top
+      }, 1000);
+      $(".mobileMenu-overlay").removeClass("open");
+      return false;
+    }
   });
   
   // burger close
@@ -121,6 +113,14 @@ if ( document.getElementsByClassName( 'swiper-container' ) ) {
     $(".mobileMenu-overlay").removeClass("open");
     $("body, html").css("overflow-x", "auto");
   });
+
+  if ( $(' .footer__menu li ').length > 6 ) {
+    $( '.footer__menu' ).addClass( 'column-2' );
+  } else if ( $(' .footer__menu li ').length > 12 ) {
+    $( '.footer__menu' ).addClass( 'column-3' );
+  } else {
+    return true;
+  }
     
 
 });
@@ -138,7 +138,6 @@ $(window).on("scroll", function() {
 
       // fixed header
   var header = $(".header");
-  // console.log( $(this).scrollTop() );
 
   if ( $(this).scrollTop() > 80 ) {
 
@@ -150,92 +149,6 @@ $(window).on("scroll", function() {
       header.removeClass( "fixed" );
     }
   }
-
-// parallax
-//   var banner = $(".banner");
-//   if ( 
-//       banner === null || banner === undefined || banner === '' ) {
-//           console.log( "if error" );
-//       return;
-//   }
-
-//   var bannerHeight = banner.outerHeight(true);
-
-//   var smallLampEl = $(".parallax-lamp-small");
-//   var smallLampScrollPos = $(this).scrollTop() - bannerHeight;
-//   var maxLampScrollPos = 337;
-//   var smallLampStartPos = smallLampEl.offset().top;
-//   // console.log( "flag: " + flag );
-
-//   if ( flag == true ) {
-//     initialSmallLampStartPos = smallLampStartPos;
-//     flag = false;
-//   }
-
-//   // console.log( $(this).scrollTop() - ( bannerHeight / 2 ) );
-
-//   if ( $(this).scrollTop() - ( bannerHeight / 2 )  > 0 ) {
-
-//     if ( smallLampScrollPos < maxLampScrollPos && smallLampScrollPos > initialSmallLampStartPos - bannerHeight ) {
-//       // console.log( 'lamp will be scrolling now' )
-//       // console.log( "bannerHeight : " + bannerHeight );
-//       // console.log( "smallLampScrollPos : " + smallLampScrollPos );
-//       smallLampEl.offset({ top: bannerHeight + smallLampScrollPos});
-
-//     }
-
-//     // console.log( bannerHeight );
-//     // console.log( $(this).scrollTop() - bannerHeight );
-//   }
-
-// #################################################
-   // parallax
-//    var banner = $(".banner");
-   // if ( 
-   //     typeof(banner) == null || banner === undefined || banner === '' ) {
-   //         console.log( "if error" );
-   //         return;
-   // }
-
-//    if ( banner.length <= 0 ) {
-//        console.log( "if error" );
-//        return;
-//    }
- 
-//    var bannerHeight = banner.outerHeight(true);
-//    var smallLampEl = $(".parallax-lamp-small");
-//    var maxLampScrollPos = 337;
-//    var smallLampCurrentPos = smallLampEl.offset().top;
-//    var scrollTop = $(this).scrollTop();
- 
-//    if ( flag == true ) {
-//      initialSmallLampStartPos = smallLampCurrentPos;
-//      flag = false;
-//    }
-
-//     // start time to scroll (px's)   
-//     var startTimeToMove;
-//     startTimeToMove = 350;
- 
-//    if ( scrollTop > startTimeToMove) {
-
-//         console.log( "scrollTop: " + scrollTop );
-//         console.log( "smallLampCurrentPos: " + smallLampCurrentPos );
-//         console.log( "initialSmallLampStartPos: " + initialSmallLampStartPos );
-
-//         if ( smallLampCurrentPos >= initialSmallLampStartPos && smallLampCurrentPos < ( initialSmallLampStartPos + maxLampScrollPos ) ) {
-
-//             if ( scrollTop < 1000 ) {
-//                 smallLampEl.offset({ top: initialSmallLampStartPos + (scrollTop - startTimeToMove ) });
-//                 console.log( initialSmallLampStartPos + (scrollTop - startTimeToMove ) );
-//             }
-
-//         } else {
-
-//         }
-//    }
-
-
 });
 
 
@@ -252,6 +165,9 @@ $(window).on("load resize", function() {
             if ( ! $(this).find(".sub-menu").hasClass( "open" ) ) {
                 $(this).find(".sub-menu").addClass( "open" );
             } else {
+                var redirectUrl = $(this).find("a").attr("href");
+                window.location.href = redirectUrl;
+                
                 $(this).find(".sub-menu").removeClass( "open" );
             }
         });

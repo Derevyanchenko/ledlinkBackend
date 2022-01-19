@@ -19,7 +19,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( $related_products ) : ?>
+$show_default_related_or_no_checkbox = get_field( 'show_default_related_or_no', 'theme-general-settings' );
+$custom_related_products = get_field( 'related_products', get_the_ID() );
+
+if ( ! empty( $custom_related_products ) || true == $show_default_related_or_no_checkbox ) : ?>
 
 	<section class="related products">
 
@@ -30,26 +33,44 @@ if ( $related_products ) : ?>
 			?>
 			<h2><?php echo esc_html( $heading ); ?></h2>
 		<?php endif; ?>
+
+		<?php if ( ! empty( $custom_related_products )) : ?>
+			<div class="products-row with-background">
+			<?php woocommerce_product_loop_start(); ?>
+				<div class="products-row with-background">
+					<?php foreach ( $custom_related_products as $related_product ) : ?>
+						<?php
+							setup_postdata( $GLOBALS['post'] =& $related_product ); 
+							wc_get_template_part( 'content', 'product' );
+						?>
+					<?php endforeach; ?>
+				</div>
+
+				<?php woocommerce_product_loop_end(); ?>
+			</div>
+			
+		<?php wp_reset_postdata(); endif; ?>
 		
-		<?php woocommerce_product_loop_start(); ?>
-		<div class="products-row with-background">
-			<?php foreach ( $related_products as $related_product ) : ?>
+		<?php if ( empty( $custom_related_products ) && ( true == $show_default_related_or_no_checkbox && $related_products ) ) : ?>
+			<?php woocommerce_product_loop_start(); ?>
+			<div class="products-row with-background">
+				<?php foreach ( $related_products as $related_product ) : ?>
 
 					<?php
-					$post_object = get_post( $related_product->get_id() );
-
-					setup_postdata( $GLOBALS['post'] =& $post_object ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited, Squiz.PHP.DisallowMultipleAssignments.Found
-
-					wc_get_template_part( 'content', 'product' );
+						$post_object = get_post( $related_product->get_id() );
+						setup_postdata( $GLOBALS['post'] =& $post_object ); 
+						wc_get_template_part( 'content', 'product' );
 					?>
 
-			<?php endforeach; ?>
-		</div>
+				<?php endforeach; ?>
+			</div>
 
-		<?php woocommerce_product_loop_end(); ?>
-
+			<?php woocommerce_product_loop_end(); ?>
+		<?php wp_reset_postdata(); endif; ?>
 	</section>
-	<?php
-endif;
+
+<?php 
+	endif;
+
 
 wp_reset_postdata();

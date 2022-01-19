@@ -87,8 +87,8 @@ $shortcode = $right_column['shortcode'];
     </div>
 </section>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOQlByLnQ-dSIiIN3gjMZ2E7QSsauhHx4"></script>
-<script type="text/javascript">
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOQlByLnQ-dSIiIN3gjMZ2E7QSsauhHx4"></script>
+<script async type="text/javascript">
 (function( $ ) {
 
 /**

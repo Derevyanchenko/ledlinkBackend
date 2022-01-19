@@ -61,6 +61,7 @@ do_action( 'woocommerce_before_main_content' );
 			woocommerce_product_loop_start();
 
 			if ( is_product_category() ) {
+				
 				if ( wc_get_loop_prop( 'total' ) <= 4 ) {
 					echo '<div class="products-row">';
 					while ( have_posts() ) {
@@ -73,9 +74,22 @@ do_action( 'woocommerce_before_main_content' );
 					}
 					echo '</div>';
 				} else if ( wc_get_loop_prop( 'total' ) >= 5 ) {
-					wp_reset_query();
-					$new_products_array = array_chunk( $posts, 4 );
+					global $post;
 
+					if ( wc_get_loop_prop( 'total' ) ) {
+						while ( have_posts() ) {
+							the_post();
+	
+							/**
+							 * Hook: woocommerce_shop_loop.
+							 */
+							do_action( 'woocommerce_shop_loop' );
+							$posts[] = $post;
+						}
+					}
+					wp_reset_query();
+
+					$new_products_array = array_chunk( $posts, 4 );
 					foreach( $new_products_array as $new_products_row ) {
 						echo '<div class="products-row">';
 	
@@ -111,7 +125,6 @@ do_action( 'woocommerce_before_main_content' );
 						do_action( 'woocommerce_shop_loop' );
 					}
 				}
-
 				wp_reset_query();
 
 				// custom loop

@@ -97,8 +97,13 @@ if ( is_product_category() ) {
 	get_footer( 'shop' );
 
 	} else {
+		// echo '<h1>element dont have childrens. Its "else"</h1>';
+		// if ( is_product_category() ) { 
+		// 	echo '<h1>Category page</h1>';
+		// 	echo  wc_get_loop_prop( 'total' );
+		// }
 		wc_get_template( 'archive-product.php' );
 	}
 
-	}
+}
 ?>
